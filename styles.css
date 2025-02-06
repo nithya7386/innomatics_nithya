@@ -1,0 +1,129 @@
+body {
+    font-family: 'Lora', serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color:lightcoral;
+    color: #4a3f35;
+}
+h1{
+       
+     font-size: 3rem;
+    background:url("https://www.tripsavvy.com/thmb/6VUY1hxaVzF1CS6RIs7IldrSdl8=/2436x1231/filters:fill(auto,1)/GettyImages-456098487-466e5d617898462997b40a1a38b9d6fe.jpg") ;
+    background-size: 100% 100%;
+    background-clip:text;
+    color:transparent;
+    }
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #6f4e37;
+    padding: 1rem 1rem;
+    color: white;
+}
+.logo img {
+    height: 30px;    }
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+@keyframes moveImage {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(10px);    }
+}
+
+.moving-img {
+/* Adjust size */
+    display: block;
+    position: relative;
+    animation: moveImage 3s linear infinite alternate; }
+
+
+nav a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: url('https://th.bing.com/th/id/OIP.h2ufMFENJiJmgtfU4WJwzgHaE6?w=264&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7') no-repeat center center/cover;
+    color: white;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: #d2691e;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.menu {
+    padding: 2rem;
+    text-align: center;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.menu-item {
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.about, .contact {
+    padding: 2rem;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+    margin: auto;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 0.75rem;
+    background: #6f4e37;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background: #4a3f35;
+    color: white;
+}
