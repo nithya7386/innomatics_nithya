@@ -1,0 +1,506 @@
+<!DOCTYPE html>  
+<html lang="en">  
+
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Multi-Functional Web App</title>  
+    <style> 
+ 
+        body {  
+            font-family: Arial, sans-serif;  
+            margin: 20px;  
+            background-color: #f4f4f4;  
+        }  
+
+        header {  
+            margin-bottom: 20px;  
+        }  
+
+        nav a {  
+            margin: 0 10px;  
+            text-decoration: none;  
+            color: blue;  
+        }  
+
+        section {  
+            margin-bottom: 40px;  
+            padding: 20px;  
+            background: white;  
+            border-radius: 8px;  
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  
+        }  
+
+        h1,  
+        h2 {  
+            color: #333;  
+        }  
+    </style>  
+</head>  
+
+<body>  
+
+    <header>  
+        <nav>  
+            <a href="#ATM">ATM</a>  
+            <a href="#Online">Online Shopping</a>  
+            <a href="#Student">Student Grading System</a>  
+            <a href="#Traffic">Smart Traffic Light System</a>  
+            <a href="#Movie">Book Movie Ticket</a>  
+            <a href="#Job">Job Application Filter</a>  
+            <a href="#E-commerce">E-commerce Coupon Redemption</a>  
+            <a href="#Fitness">Fitness Membership Plan</a>  
+            <a href="#Electricity">Electricity Bill Calculator</a>  
+            <a href="#Flight">Flight Ticket Booking System</a>  
+        </nav>  
+    </header>  
+
+    <section id="ATM">  
+        <h2>ATM Withdrawal</h2>  
+        <form onsubmit="atmWithdrawal(event)">  
+            <label for="pin">Set PIN:</label>  
+            <input type="number" id="pin" required placeholder="Enter Your Four digit PIN"><br>  
+            <label for="Enterpin">Enter PIN:</label>  
+            <input type="number" id="Enterpin" required placeholder="Enter Your Four digit PIN"><br>  
+            <label for="balance">Enter Balance:</label>  
+            <input type="number" id="balance" required placeholder="Enter your Balance"><br>  
+            <label for="amount">Enter Amount:</label>  
+            <input type="number" id="amount" required placeholder="Enter your Amount"><br>  
+            <button type="submit">Withdraw</button>  
+        </form>  
+        <p id="withdraw"></p>  
+    </section>  
+
+    <section id="Online">  
+        <h1>Online Shopping Discount & Free Shipping</h1>  
+        <ul>Discount Available!  
+            <li>20% for orders above $1000</li>  
+            <li>10% for orders between $500 and $1000</li>  
+            <li>No discount below $500</li>  
+        </ul>  
+
+        <ul>Shipping Charges  
+            <li>Free shipping for orders above $50</li>  
+            <li>Shipping ($10) for all orders below $50</li>  
+        </ul><br>  
+
+        <form onsubmit="calculateFinalAmount(event)">  
+            <label for="orders">Order : </label>  
+            <input type="number" id="orders" required placeholder="Enter your order Amount"><br>  
+            <button type="submit">Buy Now</button>  
+        </form><br>  
+
+        <label>Discount Amount : </label><span id="discountAmount">$0.00</span><br><br>  
+        <label>Shipping Amount : </label><span id="shippingCharge">$0.00</span><br><br>  
+        <label>Final Amount : </label><span id="finalAmount">$0.00</span><br><br>  
+    </section>  
+
+    <section id="Student">  
+        <h1>Student Grading System with Extra Credit</h1>  
+        <ul>  
+            <li>Grading:</li>  
+            <ul>  
+                <li>90+ → "A"</li>  
+                <li>80-89 → "B"</li>  
+                <li>70-79 → "C"</li>  
+                <li>60-69 → "D"</li>  
+                <li>Below 60 → "F"</li>  
+            </ul>  
+            <li>If attendance is above 90%, add 5 extra marks</li>  
+        </ul>  
+        <form onsubmit="calculateGrade(event)">  
+            <label for="marks">Enter your Total Marks out of 100 :</label>  
+            <input type="number" min="0" max="100" required id="marks" placeholder="NA"><br>  
+            <label for="attendance">Enter your Attendance : </label>  
+            <input type="number" min="0" max="100" id="attendance" placeholder="NA"><br>  
+            <button type="submit">Calculate</button>  
+        </form><br>  
+        <label>Final Grade: </label><span id="grade">N/A</span><br><br>  
+    </section>  
+
+    <section id="Traffic">  
+        <h1>Smart Traffic Light System</h1>  
+        <ul>  
+            <li>"Heavy Traffic" → Green for 60 seconds</li>  
+            <li>"Moderate Traffic" → Green for 40 seconds</li>  
+            <li>"Light Traffic" → Green for 20 seconds</li>  
+        </ul>  
+        <form>  
+            Traffic Density:  
+            <select onchange="trafficLightControl()" id="density">  
+                <option value="Not Selected">Not Selected</option>  
+                <option value="Heavy Traffic">Heavy Traffic</option>  
+                <option value="Moderate Traffic">Moderate Traffic</option>  
+                <option value="Light Traffic">Light Traffic</option>  
+            </select><br>  
+        </form>  
+    </section>  
+
+    <section id="Movie">  
+        <h1>Movie Ticket Pricing with Time and Age Discount</h1>  
+        <ul>  
+            <li>Standard price: $12</li>  
+            <li>Matinee show (before 5 PM) → 20% discount</li>  
+            <li>Senior citizens (above 60) → 30% discount</li>  
+            <li>Children (below 12) → 40% discount</li>  
+        </ul>  
+
+        <form onsubmit="calculateTicketPrice(event)">  
+            <label for="ages">Age:</label>  
+            <input id="ages" required type="number" placeholder="Enter your age"><br>  
+            <label for="time">Time:</label>  
+            <input type="time" required id="time"><br>  
+            <button type="submit">Book</button><br>  
+            <label>Final Price: $</label><span id="finalTicketPrice"></span>  
+        </form>  
+    </section>  
+
+    <section id="Job">  
+        <h1>Job Application Filter</h1>  
+        <ul>  
+            <li>Age must be between 21 and 55</li>  
+            <li>Experience must be at least 2 years</li>  
+            <li>Minimum qualification: "Bachelor's Degree"</li>  
+        </ul>  
+        <form onsubmit="isEligibleForJob(event)">  
+            <label for="age">Age: </label>  
+            <input id="age" min="1" max="100" required type="number" placeholder="Enter your age"><br><br>  
+            <label for="experience">Experience: </label>  
+            <input id="experience" min="0" max="50" type="number" placeholder="Enter your experience"><br><br>  
+            Minimum qualification:  
+            <select id="study">  
+                <option value="Select">Select</option>  
+                <option value="10th standard">10th standard</option>  
+                <option value="12th standard">12th standard</option>  
+                <option value="Bachelor's Degree">Bachelor's Degree</option>  
+            </select><br><br>  
+            <button type="submit">Submit</button>  
+        </form>  
+        <h4 id="eligible"></h4>  
+    </section>  
+
+    <section id="E-commerce">  
+        <h1>E-commerce Coupon Redemption</h1>  
+        <ul>  
+            <li>Coupon "DISCOUNT10" → 10% off for orders above $500</li>  
+            <li>Coupon "FREESHIP" → Free shipping for orders above $200</li>  
+            <li>Both coupons cannot be used together</li>  
+        </ul>  
+        <form onsubmit="applyCoupon(event)">  
+            <label for="totalOrder">Total Order: </label>  
+            <input type="number" required min="0" id="totalOrder"><br><br>  
+            Apply Coupon:  
+            <select id="coupons">  
+                <option value="select">select</option>  
+                <option value="DISCOUNT10">DISCOUNT10</option>  
+                <option value="FREESHIP">FREESHIP</option>  
+            </select><br><br>  
+            <button type="submit">Buy</button>  
+        </form>  
+        <h3 id="cart">$0.00</h3>  
+    </section>  
+
+    <section id="Fitness">  
+        <h1>Fitness Membership Plan</h1>  
+        <ul>  
+            <li>Basic ($20/month) → Only gym access</li>  
+            <li>Premium ($50/month) → Gym + Personal Trainer</li>  
+            <li>VIP ($80/month) → Gym + Trainer + Diet Plan</li>  
+        </ul>  
+
+        <form onsubmit="choosePlan(event)">  
+            Choose Plan:  
+            <select id="plan">  
+                <option value="NoPlan">No Plan chosen</option>  
+                <option value="Basic">Basic ($20/month) → Only gym access</option>  
+                <option value="Premium">Premium ($50/month) → Gym + Personal Trainer</option>  
+                <option value="VIP">VIP ($80/month) → Gym + Trainer + Diet Plan</option>  
+            </select>  
+            <div><input type="checkbox" id="trainer"> Personal Trainer</div>  
+            <div><input type="checkbox" id="diet"> Diet Plan</div>  
+            <button type="submit">Recommend Plan</button>  
+        </form>  
+        <p id="finalPlan"></p>  
+    </section>  
+
+    <section id="Electricity">  
+        <h1>Electricity Bill Calculation with Peak Hours</h1>  
+        <ul>  
+            <li>Normal hours (8 AM - 8 PM) </li>  
+            <ul>  
+                <li>Below 100 units → $5 per unit</li>  
+                <li>100-300 units → $4 per unit</li>  
+                <li>Above 300 units → $3 per unit</li>  
+            </ul>  
+            <li>Peak hours (8 PM - 8 AM) → Extra 10% charge on all rates</li>  
+        </ul>  
+
+        <form onsubmit="calculateElectricityBill(event)">  
+            <label for="Time">Time: </label>  
+            <input type="time" id="Time" required><br>  
+            <label for="unit">Unit: </label>  
+            <input type="number" id="unit" min="0" placeholder="Enter Units"><br>  
+            <button type="submit">Calculate</button>  
+        </form><br>  
+
+        <label>Final Bill: </label><span id="calculate">$0.00</span>  
+    </section>  
+
+    <section id="Flight">  
+        <h1>Flight Ticket Booking System</h1>  
+        <ul>  
+            <li>Base fare: $300</li>  
+            <li>Additional charges:  
+                <ul>  
+                    <li>Business class: +$200</li>  
+                    <li>First class: +$500</li>  
+                    <li>Luggage over 20kg: +$50 per 10kg extra</li>  
+                </ul>  
+            </li>  
+            <li>Discounts:  
+                <ul>  
+                    <li>Students → 15% off</li>  
+                    <li>Seniors (above 60 years old) → 10% off</li>  
+                </ul>  
+            </li>  
+        </ul>  
+        <form onsubmit="calculateFlightFare(event)">  
+            Choose Class:  
+            <select id="class">  
+                <option value="select">select</option>  
+                <option value="Business">Business Class (+$200)</option>  
+                <option value="First">First Class (+$500)</option>  
+            </select><br>  
+            <label for="yourAge">Age: </label>  
+            <input type="number" id="yourAge" min="1" placeholder="Enter Your Age" required><br>  
+            <label for="luggage">Luggage Weight (kg): </label>  
+            <input type="number" required id="luggage" min="1" placeholder="Enter your luggage weight"><br>  
+            <div><input type="checkbox" id="student"> Student</div>  
+            <button type="submit">Check Fare</button>  
+        </form>  
+        <h3 id="finalPrice"></h3>  
+    </section>  
+
+   <script>  
+    function atmWithdrawal(event) {  
+        event.preventDefault();  
+        const pin = document.getElementById('pin').value;  
+        const enterPin = document.getElementById('Enterpin').value;  
+        const balance = parseFloat(document.getElementById('balance').value);  
+        const amount = parseFloat(document.getElementById('amount').value);  
+
+        if (pin === enterPin) {  
+            if (amount <= balance) {  
+                document.getElementById('withdraw').innerText = `Withdrawal of $${amount} successful! Remaining balance: $${(balance - amount).toFixed(2)}`;  
+            } else {  
+                document.getElementById('withdraw').innerText = "Insufficient balance.";  
+            }  
+        } else {  
+            document.getElementById('withdraw').innerText = "Incorrect PIN.";  
+        }  
+    }  
+
+    function calculateFinalAmount(event) {  
+        event.preventDefault();  
+        const orderAmount = parseFloat(document.getElementById('orders').value);  
+        let discount = 0;  
+
+        if (orderAmount > 1000) {  
+            discount = (20 / 100) * orderAmount;  
+        } else if (orderAmount >= 500) {  
+            discount = (10 / 100) * orderAmount;  
+        }  
+
+        const shippingCharge = orderAmount > 50 ? 0 : 10;  
+        const finalAmount = orderAmount - discount + shippingCharge;  
+
+        document.getElementById('discountAmount').innerText = `$${discount.toFixed(2)}`;  
+        document.getElementById('shippingCharge').innerText = `$${shippingCharge.toFixed(2)}`;  
+        document.getElementById('finalAmount').innerText = `$${finalAmount.toFixed(2)}`;  
+    }  
+
+    function calculateGrade(event) {  
+        event.preventDefault();  
+        const marks = parseInt(document.getElementById('marks').value);  
+        const attendance = parseInt(document.getElementById('attendance').value);  
+        
+        let finalMarks = marks;  
+        if (attendance > 90) finalMarks += 5;  
+
+        let grade;  
+        if (finalMarks >= 90) {  
+            grade = "A";  
+        } else if (finalMarks >= 80) {  
+            grade = "B";  
+        } else if (finalMarks >= 70) {  
+            grade = "C";  
+        } else if (finalMarks >= 60) {  
+            grade = "D";  
+        } else {  
+            grade = "F";  
+        }  
+
+        document.getElementById('grade').innerText = grade;  
+    }  
+
+    function trafficLightControl() {  
+        const density = document.getElementById('density').value;  
+        let greenTime;  
+
+        switch (density) {  
+            case 'Heavy Traffic':  
+                greenTime = 60;  
+                break;  
+            case 'Moderate Traffic':  
+                greenTime = 40;  
+                break;  
+            case 'Light Traffic':  
+                greenTime = 20;  
+                break;  
+            default:  
+                return;  
+        }  
+
+        alert(`Green light for ${greenTime} seconds.`);  
+    }  
+
+    function calculateTicketPrice(event) {  
+        event.preventDefault();  
+        const age = parseInt(document.getElementById('ages').value);  
+        const time = document.getElementById('time').value;  
+        let ticketPrice = 12;  
+
+        if (time < '17:00') {  
+            ticketPrice *= 0.8; // 20% discount for matinee  
+        }  
+        if (age < 12) {  
+            ticketPrice *= 0.6; // 40% discount for children  
+        } else if (age > 60) {  
+            ticketPrice *= 0.7; // 30% discount for seniors  
+        }  
+
+        document.getElementById('finalTicketPrice').innerText = ticketPrice.toFixed(2);  
+    }  
+
+    function isEligibleForJob(event) {  
+        event.preventDefault();  
+        const age = parseInt(document.getElementById('age').value);  
+        const experience = parseInt(document.getElementById('experience').value);  
+        const qualification = document.getElementById('study').value;  
+        
+        if (age >= 21 && age <= 55 && experience >= 2 && qualification == "Bachelor's Degree") {  
+            document.getElementById('eligible').innerText = "Eligible for the job!";  
+        } else {  
+            document.getElementById('eligible').innerText = "Not eligible for the job.";  
+        }  
+    }  
+
+    function applyCoupon(event) {  
+        event.preventDefault();  
+        const totalOrder = parseFloat(document.getElementById('totalOrder').value);  
+        const coupon = document.getElementById('coupons').value;  
+
+        let discount = 0;  
+        let shippingCharge = 0;  
+
+        if (coupon === "DISCOUNT10" && totalOrder > 500) {  
+            discount = (10 / 100) * totalOrder;  
+        } else if (coupon === "FREESHIP" && totalOrder <= 200) {  
+            shippingCharge = 10; // No discount on shipping  
+        }  
+
+        const finalAmount = totalOrder - discount + shippingCharge;  
+
+        document.getElementById('cart').innerText = `$${finalAmount.toFixed(2)}`;  
+    }  
+
+    function choosePlan(event) {  
+        event.preventDefault();  
+        const plan = document.getElementById('plan').value;  
+        const trainer = document.getElementById('trainer').checked;  
+        const diet = document.getElementById('diet').checked;  
+
+        let planCost = 0;  
+        let planDescription = '';  
+
+        switch (plan) {  
+            case 'Basic':  
+                planCost = 20;   
+                planDescription = "Basic Plan selected: $20/month";  
+                break;  
+            case 'Premium':  
+                planCost = 50;   
+                planDescription = "Premium Plan selected: $50/month";  
+                break;  
+            case 'VIP':   
+                planCost = 80;   
+                planDescription = "VIP Plan selected: $80/month";  
+                break;  
+            default:  
+                planDescription = "No Plan chosen";  
+                break;  
+        }  
+
+        if (trainer) planDescription += " + Personal Trainer";  
+        if (diet) planDescription += " + Diet Plan";  
+
+        document.getElementById('finalPlan').innerText = planDescription;  
+    }  
+
+    function calculateElectricityBill(event) {  
+        event.preventDefault();  
+        const time = new Date(`1970-01-01T${document.getElementById('Time').value}`).getHours();  
+        const units = parseInt(document.getElementById('unit').value);  
+        let rate;  
+
+        if (units < 100) {  
+            rate = 5;  
+        } else if (units <= 300) {  
+            rate = 4;  
+        } else {  
+            rate = 3;  
+        }  
+
+        let totalBill = units * rate;  
+
+        if (time < 8 || time >= 20) {  
+            totalBill *= 1.1; // Add 10% for peak hours  
+        }  
+
+        document.getElementById('calculate').innerText = `$${totalBill.toFixed(2)}`;  
+    }  
+
+    function calculateFlightFare(event) {  
+        event.preventDefault();  
+        const age = parseInt(document.getElementById('yourAge').value);  
+        const luggageWeight = parseInt(document.getElementById('luggage').value);  
+        const flightClass = document.getElementById('class').value;  
+
+        let baseFare = 300;  
+        let additionalCost = 0;  
+
+        if (flightClass === "Business") {  
+            additionalCost += 200;  
+        } else if (flightClass === "First") {  
+            additionalCost += 500;  
+        }  
+
+        if (luggageWeight > 20) {  
+            additionalCost += Math.ceil((luggageWeight - 20) / 10) * 50; // $50 for every 10kg over  
+        }  
+
+        let totalPrice = baseFare + additionalCost;  
+
+        if (age < 12) {  
+            totalPrice *= 0.6; // 40% discount  
+        } else if (age >= 60) {  
+            totalPrice *= 0.9; // 10% discount  
+        } else if (document.getElementById('student').checked) {  
+            totalPrice *= 0.85; // 15% discount for students  
+        }  
+
+        document.getElementById('finalPrice').innerText = `$${totalPrice.toFixed(2)}`;  
+    }  
+</script>
+</body>
+</html>
