@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>>NITZZ'S SHOPPING CART</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+       body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: url('https://res.cloudinary.com/jerrick/image/upload/d_642250b563292b35f27461a7.png,f_jpg,fl_progressive,q_auto,w_1024/bauzaozjnog7sj03lj3a.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        header {
+            background: #333;
+            color: white;
+            padding: 50px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 20px;
+        }
+        .cart-icon {
+            cursor: pointer;
+            font-size: 20px;
+        }
+        #products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
+        }
+        .product {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+            width: 200px;
+            background: #fff;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .product:hover {
+            transform: scale(1.05);
+        }
+        .product img {
+            width: 100%;
+            height: auto;
+            max-height: 150px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .product button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background: #f4f4f4;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+            transition: right 0.3s ease-in-out;
+            padding: 20px;
+        }
+        .cart-panel.open {
+            right: 0;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>NITHYA'S SHOPPING CART</h1>
+            <div class="cart-icon" onclick="toggleCart()">
+                🛒 <span id="cart-count">0</span>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section id="products"></section>
+    </main>
+    <aside id="cart" class="cart-panel">
+        <h2>Shopping Cart</h2>
+        <ul id="cart-items"></ul>
+        <p>Total: $<span id="total-price">0.00</span></p>
+        <button onclick="clearCart()">Empty Cart</button>
+    </aside>
+    <script>
+
+        let products = [
+            { name: "Mobile Phone", price: 625.00, image: "https://th.bing.com/th/id/OIP.mqJ9j81qWL0KENOF1VAfKAHaD4?w=305&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7" },
+            { name: "Laptop", price: 99.99, image: "https://th.bing.com/th/id/OIP.tHvMkM-ma6VPbMEFLNGMfwHaHa?rs=1&pid=ImgDetMain" },
+            { name: "Tablet", price: 49.99, image: "https://i5.walmartimages.com.mx/mg/gm/1p/images/product-images/img_large/00019637857793l.jpg" },
+            { name: "Earphones", price: 49.99, image: "https://th.bing.com/th/id/OIP.tUKHCp_LdwVVDL8KjLOdnAHaHo?w=168&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7" },
+            { name: "Smartwatch", price: 7.99, image: "https://5.imimg.com/data5/SELLER/Default/2023/6/320918149/XZ/OJ/YC/192061792/tokdis-maroon-vortex-mx-2-pro-bluetooth-calling-smartwatch-1000x1000.jpg" },
+            { name: "Charger", price: 29.99, image: "https://th.bing.com/th/id/OIP.iMLb90QixmdaKjvyePBZ7QHaHa?w=185&h=185&c=7&r=0&o=5&dpr=1.5&pid=1.7" },
+            { name: "Adapter", price: 99.99, image: "https://th.bing.com/th/id/OIP.WehndP9cm6hidV-M-bD38QHaHB?w=197&h=187&c=7&r=0&o=5&dpr=1.5&pid=1.7" },
+            { name: "Pouch", price: 29.99, image: "https://i5.walmartimages.com/asr/96af47c0-744a-423a-9f88-5387a67b65d0_1.1a8f85875f3db6b45bd62680177d5f59.jpeg?odnBg=ffffff" }
+        ];
+
+        function displayProducts() {
+            let productContainer = document.getElementById('products');
+            products.forEach(product => {
+                let productDiv = document.createElement('div');
+                productDiv.classList.add('product');
+                productDiv.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>$${product.price.toFixed(2)}</p>
+                    <button onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+                `;
+                productContainer.appendChild(productDiv);
+            });
+        }
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function toggleCart() {
+            document.getElementById('cart').classList.toggle('open');
+        }
+
+        function updateCart() {
+            let cartItems = document.getElementById('cart-items');
+            let totalPrice = document.getElementById('total-price');
+            let cartCount = document.getElementById('cart-count');
+
+            cartItems.innerHTML = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                let li = document.createElement('li');
+                li.textContent = `${item.name} - $${item.price} x ${item.quantity}`;
+                let removeBtn = document.createElement('button');
+                removeBtn.textContent = 'Remove';
+                removeBtn.onclick = () => removeFromCart(index);
+                li.appendChild(removeBtn);
+                cartItems.appendChild(li);
+                total += item.price * item.quantity;
+            });
+
+            totalPrice.textContent = total.toFixed(2);
+            cartCount.textContent = cart.length;
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function addToCart(name, price) {
+            let existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            updateCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCart();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            displayProducts();
+            updateCart();
+        });
+    </script>
+</body>
+</html>
