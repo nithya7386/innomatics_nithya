@@ -1,0 +1,174 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Bush Match Madness</title>  
+    <link rel="stylesheet" href="styles.css">  
+    <script defer src="script.js"></script>  
+</head>  
+<body>  
+    <div class="landing-page">  
+        <h1>Memory Match Game</h1>  
+        <p>Select a category to begin:</p>  
+        <button onclick="startGame('fruits')">Fruits</button>  
+        <button onclick="startGame('emojis')">Emojis</button>  
+        <button onclick="startGame('animals')">Animals</button>  
+        <button onclick="startGame('planets')">Planets</button>  
+        <button onclick="startGame('flags')">Flags</button>  
+    </div>  
+   
+    <div class="game-container hidden">  
+        <h2>Memory Match</h2>  
+        <div class="score-timer">  
+            <p>Score: <span id="score">0</span></p>  
+            <p>Time Left: <span id="timer">30</span> sec</p>  
+        </div>  
+        <div class="grid"></div>  
+        <button onclick="restartGame()">Restart</button>  
+    </div>  
+
+    <style>  
+        body {  
+            font-family: 'Arial', sans-serif;  
+            text-align: center;  
+            background-color: #e0f7fa;  
+            background-image: url('https://www.transparenttextures.com/patterns/pw-maze.png');  
+            color: #333;  
+        }  
+        .landing-page {  
+            margin-top: 50px;  
+        }  
+        .game-container {  
+            display: none;  
+            flex-direction: column;  
+            align-items: center;  
+            margin-top: 20px;  
+        }  
+        .grid {  
+            display: grid;  
+            grid-template-columns: repeat(4, 100px);  
+            gap: 10px;  
+            margin-top: 20px;  
+        }  
+        .grid div {  
+            width: 100px;  
+            height: 100px;  
+            background-color: #ffffff;  
+            display: flex;  
+            align-items: center;  
+            justify-content: center;  
+            font-size: 48px; /* Increased font size for emojis */  
+            border: 2px solid #000;  
+            border-radius: 10px; /* Rounded corners */  
+            cursor: pointer;  
+            transition: transform 0.2s;  
+        }  
+        .grid div:hover {  
+            transform: scale(1.1); /* Scale effect on hover */  
+            background-color: #ffe082; /* Light yellow background on hover */  
+        }  
+        button {  
+            background-color: #4caf50;  
+            color: white;  
+            border: none;  
+            padding: 10px 20px;  
+            margin: 10px;  
+            border-radius: 5px;  
+            cursor: pointer;  
+            transition: background-color 0.3s;  
+        }  
+        button:hover {  
+            background-color: #45a049; /* Darker green on hover */  
+        }  
+        .score-timer {  
+            font-size: 24px;  
+            margin-bottom: 20px;  
+        }  
+    </style>  
+
+    <script>  
+        let score = 0;  
+        let timeLeft = 30;  
+        let timer;  
+       
+        function startGame(category) {  
+            document.querySelector('.landing-page').style.display = 'none';  
+            document.querySelector('.game-container').style.display = 'flex';  
+            score = 0;  
+            document.getElementById('score').innerText = score;  
+            startTimer();  
+            loadCards(category);  
+        }  
+
+        function startTimer() {  
+            timer = setInterval(() => {  
+                if (timeLeft > 0) {  
+                    timeLeft--;  
+                    document.getElementById('timer').innerText = timeLeft;  
+                } else {  
+                    clearInterval(timer);  
+                    alert('Time Up!');  
+                }  
+            }, 1000);  
+        }  
+
+        function loadCards(category) {  
+            const categories = {  
+               fruits: ['🍎', '🍌', '🍇', '🍉', '🍊', '🍒', '🍓', '🍍', '🥭', '🍑', '🍏', '🍋', '🍈', '🥝', '🍉', '🍎', '🍌', '🍇', '🍊'],  
+                emojis: ['😀', '😂', '😎', '😜', '😍', '🤩', '😇', '😈', '😀', '😂', '😎', '😜', '😍', '🤩', '😇', '😈'],  
+                animals: ['🐶', '🐱', '🐼', '🦁', '🐶', '🐱', '🐼', '🦁'],  
+                planets: ['🌍', '🪐', '☀️', '🌙', '🌍', '🪐', '☀️', '🌙'],  
+                flags: ['🇺🇸', '🇬🇧', '🇮🇳', '🇯🇵', '🇺🇸', '🇬🇧', '🇮🇳', '🇯🇵']  
+            };  
+            let items = categories[category];  
+            items = shuffle(items);  
+            const grid = document.querySelector('.grid');  
+            grid.innerHTML = '';  
+            items.forEach(item => {  
+                const card = document.createElement('div');  
+                card.innerText = '?';  
+                card.dataset.value = item;  
+                card.onclick = () => flipCard(card);  
+                grid.appendChild(card);  
+            });  
+        }  
+
+        function shuffle(array) {  
+            return array.sort(() => Math.random() - 0.5);  
+        }  
+
+        let firstCard, secondCard;  
+        function flipCard(card) {  
+            if (!firstCard) {  
+                firstCard = card;  
+                card.innerText = card.dataset.value;  
+            } else if (!secondCard) {  
+                secondCard = card;  
+                card.innerText = card.dataset.value;  
+                setTimeout(checkMatch, 1000);  
+            }  
+        }  
+
+        function checkMatch() {  
+            if (firstCard.dataset.value === secondCard.dataset.value) {  
+                score++;  
+                document.getElementById('score').innerText = score;  
+            } else {  
+                firstCard.innerText = '?';  
+                secondCard.innerText = '?';  
+            }  
+            firstCard = null;  
+            secondCard = null;  
+        }  
+
+        function restartGame() {  
+            clearInterval(timer);  
+            timeLeft = 30;  
+            document.getElementById('timer').innerText = timeLeft;  
+            document.querySelector('.game-container').style.display = 'none';  
+            document.querySelector('.landing-page').style.display = 'block';  
+        }  
+    </script>  
+</body>  
+</html>
